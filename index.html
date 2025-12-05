@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>给最爱的你 ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+ 
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+ 
+        /* 超超大爱心样式（保持不变） */
+        .heart-container {
+            position: relative;
+            width: 800px;
+            height: 800px;
+            margin: -100px auto 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+ 
+        .heart {
+            position: relative;
+            width: 500px;
+            height: 450px;
+            animation: heartbeat 1.2s infinite;
+            transform-origin: center;
+            filter: drop-shadow(0 0 80px #ff2d75);
+        }
+ 
+        .heart:before, .heart:after {
+            position: absolute;
+            content: "";
+            left: 250px;
+            top: 0;
+            width: 250px;
+            height: 400px;
+            background: #ff2d75;
+            border-radius: 250px 250px 0 0;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+            box-shadow: 0 0 80px rgba(255, 45, 117, 0.8);
+        }
+ 
+        .heart:after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+ 
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+ 
+        /* 文字内容样式（保持不变） */
+        .message {
+            color: white;
+            text-align: center;
+            margin-top: -50px;
+            max-width: 90%;
+            z-index: 3;
+            position: relative;
+            margin-bottom: 80px;
+        }
+ 
+        .message h1 {
+            font-size: 5rem;
+            margin-bottom: 40px;
+            text-shadow: 0 0 30px rgba(255,45,117,0.9);
+            line-height: 1.2;
+            height: 6rem;
+            overflow: hidden;
+        }
+ 
+        .message p {
+            font-size: 2.5rem;
+            line-height: 1.5;
+            margin: 20px 0;
+            height: 3rem;
+            overflow: hidden;
+        }
+
+        /* 按钮样式（保持不变） */
+        .button-container {
+            display: flex;
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .love-btn {
+            padding: 20px 60px;
+            font-size: 2rem;
+            border: 3px solid #ff2d75;
+            border-radius: 50px;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            text-shadow: 0 0 10px rgba(255,45,117,0.8);
+            transition: all 0.3s;
+            width: 300px;
+        }
+
+        .love-btn:hover {
+            transform: scale(1.05);
+            background: rgba(255,45,117,0.2);
+        }
+
+        #acceptBtn {
+            background: linear-gradient(to bottom, #ff2d75, #ff6699);
+            box-shadow: 0 0 20px rgba(255,45,117,0.5);
+        }
+
+        #rejectBtn {
+            background: linear-gradient(to bottom, #666, #999);
+            box-shadow: 0 0 20px rgba(102,102,102,0.5);
+        }
+ 
+        /* 背景粒子效果（保持不变） */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            z-index: 1;
+        }
+ 
+        /* 音乐播放器样式（保持不变） */
+        .music-player {
+            position: fixed;
+            bottom: 50px;
+            right: 50px;
+            z-index: 100;
+            color: white;
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.2);
+            padding: 20px 25px;
+            border-radius: 50px;
+            font-size: 1.8rem;
+        }
+ 
+        .music-player button {
+            background: rgba(255,255,255,0.3);
+            border: none;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            color: white;
+            font-size: 35px;
+            cursor: pointer;
+            margin-right: 25px;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+ 
+        .music-player button:hover {
+            background: rgba(255,45,117,0.8);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    
+    <div class="container">
+        <div class="heart-container">
+            <div class="heart"></div>
+        </div>
+        
+        <div class="message">
+            <h1 id="title"></h1>
+            <p id="line1"></p>
+            <p id="line2"></p>
+            <p id="line3"></p>
+        </div>
+
+        <!-- 按钮容器 -->
+        <div class="button-container">
+            <button class="love-btn" id="acceptBtn">接受我的心意</button>
+            <button class="love-btn" id="rejectBtn">拒绝</button>
+        </div>
+    </div>
+ 
+    <div class="music-player">
+        <button id="playBtn">❚❚</button>
+        <span>背景音乐</span>
+    </div>
+ 
+    <!-- 引入必要的JS库 -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> 
+    <script>
+        // 初始化粒子背景 
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 200, density: { enable: true, value_area: 800 } },
+                color: { value: "#ff2d75" },
+                shape: { type: "circle" },
+                opacity: { value: 0.8, random: true },
+                size: { value: 6, random: true },
+                line_linked: { enable: true, distance: 250, color: "#ff2d75", opacity: 0.6, width: 1 },
+                move: { enable: true, speed: 4, direction: "none", random: true, straight: false, out_mode: "out" }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "grab" },
+                    onclick: { enable: true, mode: "push" }
+                }
+            }
+        });
+
+        // 音乐控制 
+        const audio = new Audio('daylight.mp3'); 
+        const playBtn = document.getElementById('playBtn'); 
+        let isPlaying = false;
+
+        // 自动播放音乐 
+        function autoPlayMusic() {
+            audio.volume = 0.6;
+            audio.loop = true;
+            audio.play() 
+                .then(() => {
+                    isPlaying = true;
+                    playBtn.textContent = '❚❚';
+                })
+                .catch(error => {
+                    console.log(' 自动播放被阻止:', error);
+                    playBtn.textContent = '▶';
+                    isPlaying = false;
+                    
+                    const hint = document.createElement('div'); 
+                    hint.style.position = 'fixed';
+                    hint.style.bottom = '120px';
+                    hint.style.right = '50px';
+                    hint.style.color = 'white';
+                    hint.style.backgroundColor = 'rgba(0,0,0,0.7)';
+                    hint.style.padding = '10px 20px';
+                    hint.style.borderRadius = '20px';
+                    hint.style.zIndex = '1000';
+                    hint.textContent = '点击页面任意处播放音乐';
+                    document.body.appendChild(hint); 
+                    
+                    setTimeout(() => {
+                        document.body.removeChild(hint); 
+                    }, 3000);
+                });
+        }
+
+        // 文字逐字显示效果 
+        function typeWriter(element, text, speed, delay = 0) {
+            setTimeout(() => {
+                let i = 0;
+                element.textContent = '';
+                const timer = setInterval(() => {
+                    if (i < text.length) {
+                        element.textContent += text.charAt(i); 
+                        i++;
+                    } else {
+                        clearInterval(timer);
+                    }
+                }, speed);
+            }, delay);
+        }
+
+        // 初始表白文案（合并为连续显示）
+        const originalMessages = {
+            title: "真的好喜欢你呀",
+            line1: "我可能不是最好的",
+            line2: "但是你选择我的话",
+            line3: "我就会成为最好的~"
+        };
+
+        // 4组拒绝文案（对象数组，每组包含标题和3行文字）
+        const rejectMessageSets = [
+            {
+                title: "真的好喜欢你呀",
+                line1: "我可能不是最好的",
+                line2: "但是你选择我的话",
+                line3: "我就会成为最好的~"
+            },
+            {
+                title: "虽然咱确实没有认识多久",
+                line1: "但是感觉也可以逐渐了解对方的",
+                line2: "好想有这么一次机会",
+                line3: "这样就能证明一下了"
+            },
+            {
+                title: "真的好想成为你特殊的存在",
+                line1: "在我眼中的你已经足够美好",
+                line2: "真的不想错过",
+                line3: "不过就算不行也没什么关系的"
+            },
+            {
+                
+title: "我的喜欢真的不是说说而已哦",
+                line1: "喜欢本身就是一件美好的事",
+                line2: "遇到你真的好幸运",
+                line3: "真的好想和你在一起~"
+            }
+        ];
+
+        // 页面加载后初始化 
+        window.addEventListener('load',  function() {
+            autoPlayMusic();
+            
+            document.body.addEventListener('click',  function() {
+                if(!isPlaying) {
+                    autoPlayMusic();
+                }
+            }, { once: true });
+            
+            // 显示初始表白文案（连续无间隔）
+            typeWriter(document.getElementById('title'), originalMessages.title, 150);
+            typeWriter(document.getElementById('line1'), originalMessages.line1, 50, 2000);
+            typeWriter(document.getElementById('line2'), originalMessages.line2, 50, 4000);
+            typeWriter(document.getElementById('line3'), originalMessages.line3, 50, 6000);
+        });
+
+        // 接受按钮点击事件
+        document.getElementById('acceptBtn').addEventListener('click', () => {
+            window.location.href = "accepted.html"; // 需自行创建接受页面
+        });
+
+        // 拒绝按钮点击事件（连续显示文案）
+        document.getElementById('rejectBtn').addEventListener('click', () => {
+            // 随机选择一组拒绝文案
+            const randomIndex = Math.floor(Math.random() * rejectMessageSets.length);
+            const msg = rejectMessageSets[randomIndex];
+            
+            // 播放拒绝音效（可自行添加音频文件）
+            const rejectSound = new Audio('reject.mp3');
+            rejectSound.play().catch(err => console.log('音效加载失败'));
+            
+            // 清空原有内容
+            document.getElementById('title').textContent = '';
+            document.getElementById('line1').textContent = '';
+            document.getElementById('line2').textContent = '';
+            document.getElementById('line3').textContent = '';
+            
+            // 逐字显示新文案（连续无间隔）
+            typeWriter(document.getElementById('title'), msg.title, 150);
+            typeWriter(document.getElementById('line1'), msg.line1, 50, 0); // 移除行间延迟
+            typeWriter(document.getElementById('line2'), msg.line2, 50, 0); // 移除行间延迟
+            typeWriter(document.getElementById('line3'), msg.line3, 50, 0); // 移除行间延迟
+        });
+
+        // 音乐控制按钮
+        playBtn.addEventListener('click',  function(e) {
+            e.stopPropagation(); 
+            if(isPlaying) {
+                audio.pause(); 
+                playBtn.textContent = '▶';
+            } else {
+                audio.play(); 
+                playBtn.textContent = '❚❙❚';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // 爱心点击效果（保持不变）
+        document.querySelector('.heart').addEventListener('click',  function(e) {
+            e.stopPropagation(); 
+            this.style.animation = 'none';
+            setTimeout(() => {
+                this.style.animation = 'heartbeat 1.2s infinite';
+            }, 10);
+            
+            if(!isPlaying) {
+                autoPlayMusic();
+            }
+            
+            for(let i = 0; i < 30; i++) {
+                const particle = document.createElement('div'); 
+                particle.style.position = 'absolute';
+                particle.style.width = '10px';
+                particle.style.height = '10px';
+                particle.style.backgroundColor = '#ff2d75';
+                particle.style.borderRadius = '50%';
+                particle.style.left = e.clientX + 'px';
+                particle.style.top = e.clientY + 'px';
+                particle.style.zIndex = '5';
+                particle.style.transform = `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px)`;
+                particle.style.opacity = '0';
+                particle.style.transition = 'all 1s ease-out';
+                document.body.appendChild(particle); 
+                
+                setTimeout(() => {
+                    particle.style.opacity = '1';
+                    particle.style.transform = `translate(${Math.random() * 400 - 200}px, ${Math.random() * 400 - 200}px)`;
+                    particle.style.opacity = '0';
+                }, 10);
+                
+                setTimeout(() => {
+                    document.body.removeChild(particle); 
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
