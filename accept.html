@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深情表白~</title>
+    <style>
+        body {
+            margin: 0;
+            background: #000;
+            font-family: '华文行楷', cursive;
+            overflow: hidden;
+        }
+
+        /* 粒子容器 */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* 文字容器 */
+        .message-box {
+            position: relative;
+            z-index: 2;
+            color: #ff69b4;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* 逐行打印效果 */
+        .typing-line {
+            font-size: clamp(1.2rem, 4vw, 2.2rem);
+            font-weight: 900;
+            text-shadow: 0 0 15px rgba(255,105,180,0.7);
+            white-space: normal;
+            overflow: hidden;
+            max-width: 90%;
+            text-align: center;
+            opacity: 0;
+            position: absolute;
+            transform: translateX(-50%);
+            left: 50%;
+            animation: textGlow 2s infinite, fadeIn 0.3s forwards;
+            word-break: keep-all;
+            line-height: 1.6;
+        }
+
+        /* 为每行文字设置固定位置 - 桌面端 */
+        @media (min-width: 768px) {
+            .typing-line:nth-child(1) { top: 22%; }
+            .typing-line:nth-child(2) { top: 28%; }
+            .typing-line:nth-child(3) { top: 34%; }
+            .typing-line:nth-child(4) { top: 40%; }
+            .typing-line:nth-child(5) { top: 46%; }
+            .typing-line:nth-child(6) { top: 52%; }
+        }
+
+        /* 为每行文字设置固定位置 - 平板 */
+        @media (min-width: 481px) and (max-width: 767px) {
+            .typing-line {
+                font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+                position: relative;
+                transform: none;
+                left: auto;
+                top: auto;
+                margin-bottom: 1.5rem;
+                opacity: 0;
+                max-width: 100%;
+            }
+            
+            .message-box {
+                justify-content: flex-start;
+                padding-top: 25%;
+            }
+        }
+
+        /* 为每行文字设置固定位置 - 手机 */
+        @media (max-width: 480px) {
+            .typing-line {
+                font-size: clamp(1.1rem, 4vw, 1.5rem);
+                position: relative;
+                transform: none;
+                left: auto;
+                top: auto;
+                margin-bottom: 1.2rem;
+                opacity: 0;
+                max-width: 100%;
+            }
+            
+            .message-box {
+                justify-content: flex-start;
+                padding-top: 20%;
+            }
+        }
+
+        @keyframes textGlow {
+            0%,100% { text-shadow: 0 0 20px #ff69b4; }
+            50% { text-shadow: 0 0 40px #ff1493; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    
+    <div class="message-box" id="messageContainer"></div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> 
+    <script>
+        // 初始化粒子效果
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80 },
+                color: { value: "#ff69b4" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5 },
+                size: { value: 3 },
+                move: {
+                    enable: true,
+                    speed: 3,
+                    direction: "none",
+                    random: false,
+                    straight: false,
+                    out_mode: "out"
+                }
+            }
+        });
+
+        // 指定的文案内容
+        const messages = [
+            "真的很不敢相信你真的答应了。",
+            "嗯……我对爱情很认真的，",
+            "此刻心绪如乱码，",
+            "这颗心只想为你而跳动，",
+            "也将永远为你而炽热。",
+            "所以，我真的会用余生只爱你哦~"
+        ];
+
+        // 预先创建所有行元素
+        messages.forEach((_, index) => {
+            const line = document.createElement('div');
+            line.className = 'typing-line';
+            line.style.animationDelay = `${index * 0.4}s`;
+            messageContainer.appendChild(line);
+        });
+
+        const lines = document.querySelectorAll('.typing-line');
+        let lineIndex = 0;
+        let charIndex = 0;
+
+        function typeWriter() {
+            if (lineIndex >= messages.length) return;
+            
+            const currentLine = lines[lineIndex];
+            
+            if (charIndex < messages[lineIndex].length) {
+                currentLine.textContent += messages[lineIndex][charIndex];
+                charIndex++;
+                setTimeout(typeWriter, 50);
+            } else {
+                lineIndex++;
+                charIndex = 0;
+                if (lineIndex < messages.length) {
+                    setTimeout(typeWriter, 0);
+                }
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', typeWriter);
+    </script>
+</body>
+</html>
